@@ -1,0 +1,24 @@
+class EraseSadFeelings{
+    bool isSad;
+    bool isFailed;
+    var goToSleep;
+    Button sleepButton, forceSleepButton;
+
+    if(isSad == true){
+        make appreciation videos;
+        watch funny cat videos;
+        listen an happy musics;
+        isSad = false;
+        sleepButton{
+            onPress(goToSleep);
+        }
+    }else if(isFailed == true) {
+        forceSleepButton{
+            onPress(goToSleep);
+        }
+    }else{
+        go to your computer and coding;
+    }
+}
+
+
