@@ -1,26 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:food_delivery_app/controllers/popular_product_controller.dart';
+import 'package:food_delivery_app/pages/home/main_food_page.dart';
+import 'package:food_delivery_app/utils/app_constanst.dart';
 import 'package:food_delivery_app/utils/dimensions.dart';
 import 'package:food_delivery_app/widgets/app_column.dart';
 import 'package:food_delivery_app/widgets/app_icon.dart';
 import 'package:food_delivery_app/widgets/expandable_text_widget.dart';
-
+import 'package:get/get.dart';
 import '../../utils/app_colors.dart';
 import '../../widgets/big_text.dart';
 import '../../widgets/icons_text_widget.dart';
 import '../../widgets/small_text.dart';
 
-class FavoriteFoodDetail extends StatefulWidget {
-  const FavoriteFoodDetail({super.key});
+class FavoriteFoodDetail extends StatelessWidget {
+  final int pageId;
+  const FavoriteFoodDetail({Key? key, required this.pageId}) : super(key: key);
 
-  @override
-  State<FavoriteFoodDetail> createState() => _FavoriteFoodDetailState();
-}
-
-class _FavoriteFoodDetailState extends State<FavoriteFoodDetail> {
   @override
   Widget build(BuildContext context) {
+    var product =
+        Get.find<PopularProductController>().popularProductList[pageId];
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -35,7 +36,9 @@ class _FavoriteFoodDetailState extends State<FavoriteFoodDetail> {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: AssetImage("assets/images/food1.jpg"))),
+                        image: NetworkImage(AppConstants.BASE_URL +
+                            AppConstants.UPLOAD_URL +
+                            product.img!))),
               )),
           //Icon Widget
           Positioned(
@@ -45,7 +48,11 @@ class _FavoriteFoodDetailState extends State<FavoriteFoodDetail> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AppIcon(icon: Icons.arrow_back_ios),
+                  GestureDetector(
+                      onTap: () {
+                        Get.to(() => MainFoodPage());
+                      },
+                      child: AppIcon(icon: Icons.arrow_back_ios)),
                   AppIcon(icon: Icons.shopping_cart_outlined)
                 ],
               )),
@@ -68,7 +75,7 @@ class _FavoriteFoodDetailState extends State<FavoriteFoodDetail> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        AppColumn(text: "Makanan Kesukaan"),
+                        AppColumn(text: product.name!),
                         SizedBox(
                           height: Dimensions.height20,
                         ),
@@ -76,8 +83,7 @@ class _FavoriteFoodDetailState extends State<FavoriteFoodDetail> {
                         Expanded(
                           child: SingleChildScrollView(
                             child: ExpandableTextWidget(
-                                text:
-                                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."),
+                                text: product.description!),
                           ),
                         )
                       ]))),
@@ -124,7 +130,7 @@ class _FavoriteFoodDetailState extends State<FavoriteFoodDetail> {
                 bottom: Dimensions.height20,
                 left: Dimensions.width20,
                 right: Dimensions.width20),
-            child: BigText(text: "\$ 10 | Add to cart"),
+            child: BigText(text: "\$ ${product.price!} | Add to cart"),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(Dimensions.radius20),
                 color: AppColor.mainColor),

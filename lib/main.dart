@@ -5,6 +5,7 @@ import 'package:food_delivery_app/pages/food/favorite_food_detail.dart';
 import 'package:food_delivery_app/pages/food/recommended_food_detail.dart';
 import 'package:food_delivery_app/pages/home/food_page_body.dart';
 import 'package:food_delivery_app/pages/home/main_food_page.dart';
+import 'package:food_delivery_app/routes/routes_helper.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/get.dart';
 import 'controllers/recommended_product_controller.dart';
@@ -24,12 +25,12 @@ class MyApp extends StatelessWidget {
 
     Get.find<RecommendedProductController>().getRecommendedProductList();
     return GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: //MainFoodPage(),
-            MainFoodPage());
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      home: //MainFoodPage(),
+          MainFoodPage(),
+      initialRoute: RouteHelper.initial,
+      getPages: RouteHelper.routes,
+    );
   }
 }
